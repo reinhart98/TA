@@ -5,17 +5,17 @@ from PIL import Image
 import pickle
 import sys
 
-#face_cascade = cv2.CascadeClassifier('cascades/haarcascade_frontalface_alt2.xml')
-face_cascade = cv2.CascadeClassifier('/home/odroid/opencv-3.1.0/data/haarcascades/haarcascade_frontalface_alt2.xml')
+face_cascade = cv2.CascadeClassifier('cascades/haarcascade_frontalface_alt2.xml')
+#face_cascade = cv2.CascadeClassifier('/home/odroid/opencv-3.1.0/data/haarcascades/haarcascade_frontalface_alt2.xml')
 #recognizer = cv2.createLBPHFaceRecognizer()
 recognizer = cv2.face.createLBPHFaceRecognizer()
 colec = cv2.face.MinDistancePredictCollector()
 recognizer.load("trainer.yml")
 
-labels = {"persons_name":1}
+labels = {"persons_name":2}
 with open("labels.pickle", "rb") as f:
 	og_labels = pickle.load(f)
-	labels = {v:k for k,v in labels.items()}
+	labels = {v:k for k,v in og_labels.items()}
 		
 		
 cap = cv2.VideoCapture(0)
@@ -33,25 +33,27 @@ while(True):
 		
 		#recognize how?
 		
-		#id_ , conf = recognizer.predict_collect(roi_gray) #some error, some say cuz its opencv 3.1.0 bug 
-		#conf = 0.7											#solution : up opencv to 3.3 or just use MinDistancePredictCollector(...)
-		#if conf>=45 and conf<=85:
-			#print(id_)
+		id_ , conf = recognizer.predict(roi_gray) #some error, some say cuz its opencv 3.1.0 bug 
+													#solution : up opencv to 3.3 or just use MinDistancePredictCollector(...)
+		if conf>=45 and conf<=85:
+			print(id_)
 			#print(labels[id_])
-		#elif conf <45:
-			#print("unknown")
-						
-		id_ = recognizer.predict(roi_gray, colec)
-		conf = colec.getDist()
-		label = colec.getLabel()
-		if conf>=40 and conf<=85:
-			print(id_)				#conf sdh benar problem now dia nd baca id_ nya
-			print(labels[id_])	# alhasi krn dia baca id_ nya none atau tdk ada, it cant read the labels
-		else:
+		elif conf <45:
 			print("unknown")
+						
+		#id = recognizer.predict(roi_gray, colec)
+		#conf = colec.getDist()
+		#labell = colec.getLabel()
+		#if conf>=45:
+			#print(id_)				#conf sdh benar problem now dia nd baca id_ nya
+			#print(labels[id_])	# alhasi krn dia baca id_ nya none atau tdk ada, it cant read the labels
+			#print(labels[labell])
+		#	print(labell, id, conf)
+		#else:
+		#	print("unknown")
 			
 		img_item = "my-img.png"
-		cv2.imwrite(img_item, roi_gray)
+		cv2.imwrite(img_item, roy_color)
 		
 		color = (255, 0, 0)
 		stroke = 2

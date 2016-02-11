@@ -12,7 +12,7 @@ face_cascade = cv2.CascadeClassifier('/home/odroid/opencv-3.1.0/data/haarcascade
 #recognizer = cv2.createLBPHFaceRecognizer()
 recognizer = cv2.face.createLBPHFaceRecognizer()
 
-current_id = 0
+current_id = 1
 label_ids = {}
 y_labels = []
 x_train = []
@@ -35,7 +35,9 @@ for root, dirs, files in os.walk(image_dir):
 			#y_labels.append(label)
 
 			pil_images = Image.open(path).convert("L")
-			image_array = np.array(pil_images, "uint8")
+			size = (550,550)
+			final_image = pil_images.resize(size, Image.ANTIALIAS)
+			image_array = np.array(final_image, "uint8")
 			#print(image_array)
 
 			faces = face_cascade.detectMultiScale(image_array, scaleFactor=1.5, minNeighbors=5)
