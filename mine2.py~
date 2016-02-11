@@ -15,10 +15,10 @@ import os
 #credential_path = '/home/odroid/TA/service.json'
 #os.system('export GOOGLE_APPLICATION_CREDENTIALS="/home/odroid/TA/service.json"')
 
-TOKEN = ""
+TOKEN = "536159039:AAH0o_BLr0CHpSoFABByJCFNCZaGE43XAX4"
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 
-bot = telegram.Bot(token='')
+bot = telegram.Bot(token='536159039:AAH0o_BLr0CHpSoFABByJCFNCZaGE43XAX4')
 
 client = storage.Client()
 bucket = client.get_bucket('deep-freehold-213203.appspot.com')
@@ -70,7 +70,7 @@ def send_message(text, chat_id):
     url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
     get_url(url)
 
-chatid = 482880664
+#chatid = 482880664
 
 
 
